@@ -1,6 +1,13 @@
 from pathlib import Path
+from decouple import config, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = config('SECRET_KEY')
+
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,7 +34,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,9 +79,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 MAILERS = {
     'default': {
